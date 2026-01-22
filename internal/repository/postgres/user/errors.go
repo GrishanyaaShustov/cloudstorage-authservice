@@ -8,11 +8,20 @@ import (
 )
 
 var (
-	ErrNotFound      = errors.New("repository: not found")
+	// ErrNotFound indicates that the requested entity was not found in storage.
+	ErrNotFound = errors.New("repository: not found")
+
+	// ErrEmailConflict indicates a conflict caused by a duplicate email value.
 	ErrEmailConflict = errors.New("repository: email conflict")
+
+	// ErrLoginConflict indicates a conflict caused by a duplicate login value.
 	ErrLoginConflict = errors.New("repository: login conflict")
-	ErrUnavailable   = errors.New("repository: unavailable")
-	ErrInternal      = errors.New("repository: internal")
+
+	// ErrUnavailable indicates that the repository backend is unavailable.
+	ErrUnavailable = errors.New("repository: unavailable")
+
+	// ErrInternal indicates an unexpected internal repository error.
+	ErrInternal = errors.New("repository: internal")
 )
 
 func isUnavailable(err error) bool {
