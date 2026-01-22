@@ -1,3 +1,4 @@
+// Package userrepo provides PostgreSQL-backed user repository implementations.
 package userrepo
 
 import (
@@ -12,6 +13,7 @@ const confirmEmailQuery = `
 	  AND email_verified_at IS NULL;
 `
 
+// ConfirmEmail marks the user's email as verified.
 func (r *UserRepository) ConfirmEmail(ctx context.Context, userID string) error {
 	cmd, err := r.pool.Exec(ctx, confirmEmailQuery, userID)
 	if err != nil {
