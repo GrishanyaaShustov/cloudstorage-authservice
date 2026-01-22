@@ -1,3 +1,4 @@
+// Package userrepo provides PostgreSQL-backed user repository implementations.
 package userrepo
 
 import (
@@ -10,6 +11,7 @@ const createUserQuery = `
 	VALUES ($1, $2, $3);
 `
 
+// Create inserts a new user record into the storage.
 func (r *UserRepository) Create(ctx context.Context, email, login, passwordHash string) error {
 	_, err := r.pool.Exec(ctx, createUserQuery, email, login, passwordHash)
 	if err != nil {
