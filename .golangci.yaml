@@ -26,7 +26,7 @@ linters:
     # безопасность
     - gosec
 
-    # качество / чистота (точно существуют в списке у тебя)
+    # качество / чистота
     - asciicheck
     - bidichk
     - durationcheck
@@ -34,7 +34,7 @@ linters:
     - wastedassign
     - predeclared
 
-    # стиль/поддерживаемость (существуют у тебя)
+    # стиль/поддерживаемость
     - gocritic
     - revive
     - whitespace
