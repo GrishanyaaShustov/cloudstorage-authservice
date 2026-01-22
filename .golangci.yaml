@@ -1,0 +1,55 @@
+version: "2"
+
+run:
+  timeout: 5m
+  tests: true
+
+linters:
+  enable:
+    # включены по дефолту, но пусть будут явно
+    - errcheck
+    - govet
+    - ineffassign
+    - staticcheck
+    - unused
+
+    # баги/ошибки ресурсов
+    - bodyclose
+    - rowserrcheck
+    - sqlclosecheck
+
+    # ошибки с nil
+    - nilerr
+    - nilnil
+    - nilnesserr
+
+    # безопасность
+    - gosec
+
+    # качество / чистота (точно существуют в списке у тебя)
+    - asciicheck
+    - bidichk
+    - durationcheck
+    - unconvert
+    - wastedassign
+    - predeclared
+
+    # стиль/поддерживаемость (существуют у тебя)
+    - gocritic
+    - revive
+    - whitespace
+    - nolintlint
+
+    # контекст
+    - containedctx
+    - contextcheck
+    - noctx
+
+    # тесты
+    - thelper
+    - tparallel
+
+
+issues:
+  max-issues-per-linter: 0
+  max-same-issues: 0

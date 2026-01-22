@@ -1,0 +1,74 @@
+version: '3'
+
+vars:
+  BIN_DIR: '{{.ROOT_DIR}}/bin'
+  GOLANGCI_LINT: '{{.BIN_DIR}}/golangci-lint'
+  GCI: '{{.BIN_DIR}}/gci'
+  GOFUMPT: '{{.BIN_DIR}}/gofumpt'
+
+  GOLANGCI_LINT_VERSION: 'v2.1.5'
+  GCI_VERSION: 'v0.13.6'
+  GOFUMPT_VERSION: 'v0.8.0'
+
+  GCI_PREFIX: 'prefix(github.com/GrishanyaaShustov/cloudstorage-authservice)'
+
+tasks:
+  modules:
+    desc: "Показывает найденные go-модули"
+    cmds:
+      - |
+        find . -name go.mod -not -path "./vendor/*" -exec dirname {} \;
+
+  install-formatters:
+    cmds:
+      - mkdir -p {{.BIN_DIR}}
+      - |
+        test -x {{.GOFUMPT}} || {
+          echo '📦 Устанавливаем gofumpt {{.GOFUMPT_VERSION}}...'
+          GOBIN={{.BIN_DIR}} go install mvdan.cc/gofumpt@{{.GOFUMPT_VERSION}}
+        }
+      - |
+        test -x {{.GCI}} || {
+          echo '📦 Устанавливаем gci {{.GCI_VERSION}}...'
+          GOBIN={{.BIN_DIR}} go install github.com/daixiang0/gci@{{.GCI_VERSION}}
+        }
+
+  format:
+    deps: [install-formatters]
+    cmds:
+      - |
+        set -e
+        echo "🧼 Форматируем через gofumpt ..."
+        for module in $(find . -name go.mod -not -path "./vendor/*" -exec dirname {} \;); do
+          echo "🧼 Форматируем $module"
+          find "$module" -type f -name '*.go' ! -path '*/mocks/*' -exec {{.GOFUMPT}} -extra -w {} +
+        done
+      - |
+        set -e
+        echo "🎯 Сортируем импорты через gci ..."
+        for module in $(find . -name go.mod -not -path "./vendor/*" -exec dirname {} \;); do
+          echo "🎯 Сортируем импорты в $module"
+          find "$module" -type f -name '*.go' ! -path '*/mocks/*' -exec {{.GCI}} write -s standard -s default -s "{{.GCI_PREFIX}}" {} +
+        done
+
+  install-golangci-lint:
+    cmds:
+      - mkdir -p {{.BIN_DIR}}
+      - |
+        test -x {{.GOLANGCI_LINT}} || {
+          echo "📦 Устанавливаем golangci-lint {{.GOLANGCI_LINT_VERSION}}..."
+          GOBIN={{.BIN_DIR}} go install github.com/golangci/golangci-lint/v2/cmd/golangci-lint@{{.GOLANGCI_LINT_VERSION}}
+        }
+
+  lint:
+    deps: [install-golangci-lint, format]
+    cmds:
+      - |
+        set -e
+        ERR=0
+        echo "🔍 Линтим все модули ..."
+        for mod in $(find . -name go.mod -not -path "./vendor/*" -exec dirname {} \;); do
+          echo "🔍 Линтим $mod"
+          {{.GOLANGCI_LINT}} run "$mod/..." --config=.golangci.yaml || ERR=1
+        done
+        exit $ERR
