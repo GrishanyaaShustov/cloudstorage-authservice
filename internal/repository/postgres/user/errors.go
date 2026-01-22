@@ -1,3 +1,4 @@
+// Package userrepo provides PostgreSQL-backed user repository implementations.
 package userrepo
 
 import (
