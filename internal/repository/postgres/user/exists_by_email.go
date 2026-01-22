@@ -1,3 +1,4 @@
+// Package userrepo provides PostgreSQL-backed user repository implementations.
 package userrepo
 
 import (
@@ -13,6 +14,7 @@ SELECT EXISTS (
 );
 `
 
+// ExistsByEmail checks whether a user with the specified email exists.
 func (r *UserRepository) ExistsByEmail(ctx context.Context, email string) (bool, error) {
 	var exists bool
 
