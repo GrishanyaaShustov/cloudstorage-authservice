@@ -8,7 +8,7 @@ import (
 )
 
 // Delete removes a refresh session for the provided composite key.
-func (r *RefreshRepository) Delete(ctx context.Context, userID, app, device string) error {
+func (r *Repository) Delete(ctx context.Context, userID, app, device string) error {
 	key := makeKey(userID, app, device)
 
 	_, err := r.rdb.Del(ctx, key).Result()

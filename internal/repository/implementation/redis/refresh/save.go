@@ -10,7 +10,7 @@ import (
 )
 
 // Save stores a refresh session with the provided TTL.
-func (r *RefreshRepository) Save(ctx context.Context, userID, app, device, value string, ttl time.Duration) error {
+func (r *Repository) Save(ctx context.Context, userID, app, device, value string, ttl time.Duration) error {
 	key := makeKey(userID, app, device)
 
 	if err := r.rdb.Set(ctx, key, value, ttl).Err(); err != nil {
