@@ -5,6 +5,8 @@ import (
 	"context"
 	"fmt"
 	"time"
+
+	contract "github.com/GrishanyaaShustov/cloudstorage-authservice/internal/repository/refresh"
 )
 
 // Save stores a refresh session with the provided TTL.
@@ -13,9 +15,9 @@ func (r *RefreshRepository) Save(ctx context.Context, userID, app, device, value
 
 	if err := r.rdb.Set(ctx, key, value, ttl).Err(); err != nil {
 		if isUnavailable(err) {
-			return ErrUnavailable
+			return contract.ErrUnavailable
 		}
-		return fmt.Errorf("%w: save refresh session", ErrInternal)
+		return fmt.Errorf("%w: save refresh session", contract.ErrInternal)
 	}
 
 	return nil
