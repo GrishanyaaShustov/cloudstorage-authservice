@@ -17,7 +17,7 @@ SELECT EXISTS (
 `
 
 // ExistsByEmail checks whether a user with the specified email exists.
-func (r *UserRepository) ExistsByEmail(ctx context.Context, email string) (bool, error) {
+func (r *Repository) ExistsByEmail(ctx context.Context, email string) (bool, error) {
 	var exists bool
 
 	err := r.pool.QueryRow(ctx, existsByEmailQuery, email).Scan(&exists)

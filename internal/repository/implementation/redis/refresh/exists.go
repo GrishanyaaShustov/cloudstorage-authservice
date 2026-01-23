@@ -9,7 +9,7 @@ import (
 )
 
 // Exists checks whether a refresh session exists for the provided composite key.
-func (r *RefreshRepository) Exists(ctx context.Context, userID, app, device string) (bool, error) {
+func (r *Repository) Exists(ctx context.Context, userID, app, device string) (bool, error) {
 	key := makeKey(userID, app, device)
 
 	n, err := r.rdb.Exists(ctx, key).Result()

@@ -9,18 +9,18 @@ import (
 
 const keyPrefix = "refresh"
 
-// RefreshRepository provides access to refresh session persistence operations.
+// Repository provides access to refresh session persistence operations.
 //
 // It stores refresh sessions in Redis using a composite key built from
 // user ID, application identifier, and device identifier.
-type RefreshRepository struct {
+type Repository struct {
 	// rdb is the Redis client used for all repository operations.
 	rdb *redis.Client
 }
 
-// New creates a new RefreshRepository instance.
-func New(rdb *redis.Client) *RefreshRepository {
-	return &RefreshRepository{rdb: rdb}
+// New creates a new Repository instance.
+func New(rdb *redis.Client) *Repository {
+	return &Repository{rdb: rdb}
 }
 
 // makeKey builds a Redis key for a refresh session.

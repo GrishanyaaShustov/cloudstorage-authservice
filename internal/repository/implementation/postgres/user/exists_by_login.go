@@ -17,7 +17,7 @@ SELECT EXISTS (
 `
 
 // ExistsByLogin checks whether a user with the specified login exists.
-func (r *UserRepository) ExistsByLogin(ctx context.Context, login string) (bool, error) {
+func (r *Repository) ExistsByLogin(ctx context.Context, login string) (bool, error) {
 	var exists bool
 
 	err := r.pool.QueryRow(ctx, existsByLoginQuery, login).Scan(&exists)
