@@ -16,7 +16,7 @@ const confirmEmailQuery = `
 `
 
 // ConfirmEmail marks the user's email as verified.
-func (r *UserRepository) ConfirmEmail(ctx context.Context, userID string) error {
+func (r *Repository) ConfirmEmail(ctx context.Context, userID string) error {
 	cmd, err := r.pool.Exec(ctx, confirmEmailQuery, userID)
 	if err != nil {
 		if isUnavailable(err) {
