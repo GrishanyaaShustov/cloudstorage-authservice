@@ -4,6 +4,8 @@ package userrepo
 import (
 	"context"
 	"fmt"
+
+	contract "github.com/GrishanyaaShustov/cloudstorage-authservice/internal/repository/user"
 )
 
 const existsByLoginQuery = `
@@ -21,9 +23,9 @@ func (r *UserRepository) ExistsByLogin(ctx context.Context, login string) (bool,
 	err := r.pool.QueryRow(ctx, existsByLoginQuery, login).Scan(&exists)
 	if err != nil {
 		if isUnavailable(err) {
-			return false, ErrUnavailable
+			return false, contract.ErrUnavailable
 		}
-		return false, fmt.Errorf("%w: exists by login", ErrInternal)
+		return false, fmt.Errorf("%w: exists by login", contract.ErrInternal)
 	}
 
 	return exists, nil

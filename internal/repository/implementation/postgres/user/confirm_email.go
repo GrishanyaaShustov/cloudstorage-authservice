@@ -4,6 +4,8 @@ package userrepo
 import (
 	"context"
 	"fmt"
+
+	contract "github.com/GrishanyaaShustov/cloudstorage-authservice/internal/repository/user"
 )
 
 const confirmEmailQuery = `
@@ -18,13 +20,13 @@ func (r *UserRepository) ConfirmEmail(ctx context.Context, userID string) error 
 	cmd, err := r.pool.Exec(ctx, confirmEmailQuery, userID)
 	if err != nil {
 		if isUnavailable(err) {
-			return ErrUnavailable
+			return contract.ErrUnavailable
 		}
-		return fmt.Errorf("%w: confirm email", ErrInternal)
+		return fmt.Errorf("%w: confirm email", contract.ErrInternal)
 	}
 
 	if cmd.RowsAffected() == 0 {
-		return ErrNotFound
+		return contract.ErrNotFound
 	}
 
 	return nil
