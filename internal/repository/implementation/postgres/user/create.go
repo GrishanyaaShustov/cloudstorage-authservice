@@ -4,6 +4,8 @@ package userrepo
 import (
 	"context"
 	"fmt"
+
+	contract "github.com/GrishanyaaShustov/cloudstorage-authservice/internal/repository/user"
 )
 
 const createUserQuery = `
@@ -19,9 +21,9 @@ func (r *UserRepository) Create(ctx context.Context, email, login, passwordHash 
 			return mapUniqueViolation(err)
 		}
 		if isUnavailable(err) {
-			return ErrUnavailable
+			return contract.ErrUnavailable
 		}
-		return fmt.Errorf("%w: create user", ErrInternal)
+		return fmt.Errorf("%w: create user", contract.ErrInternal)
 	}
 
 	return nil
