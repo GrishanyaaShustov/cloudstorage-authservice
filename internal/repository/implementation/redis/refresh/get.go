@@ -11,7 +11,7 @@ import (
 )
 
 // Get returns the stored value for a refresh session (e.g. session ID / jti).
-func (r *RefreshRepository) Get(ctx context.Context, userID, app, device string) (string, error) {
+func (r *Repository) Get(ctx context.Context, userID, app, device string) (string, error) {
 	key := makeKey(userID, app, device)
 
 	val, err := r.rdb.Get(ctx, key).Result()
