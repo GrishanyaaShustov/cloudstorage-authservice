@@ -7,6 +7,7 @@ import (
 
 	"github.com/GrishanyaaShustov/cloudstorage-authservice/internal/repository/refresh"
 	userrepo "github.com/GrishanyaaShustov/cloudstorage-authservice/internal/repository/user"
+	"github.com/GrishanyaaShustov/cloudstorage-authservice/internal/security/jwt"
 )
 
 // AuthService defines the contract for authentication use cases.
@@ -25,12 +26,15 @@ type AuthService interface {
 type Service struct {
 	user    userrepo.UserRepository
 	refresh refreshrepo.RefreshRepository
+
+	jwt *jwt.Manager
 }
 
 // New creates a new authentication service instance.
-func New(user userrepo.UserRepository, refresh refreshrepo.RefreshRepository) *Service {
+func New(user userrepo.UserRepository, refresh refreshrepo.RefreshRepository, jwt *jwt.Manager) *Service {
 	return &Service{
 		user:    user,
 		refresh: refresh,
+		jwt:     jwt,
 	}
 }
