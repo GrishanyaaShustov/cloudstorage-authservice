@@ -9,13 +9,6 @@ package authservice
 type LoginResponse struct {
 	// AccessToken contains a JWT access token used for authenticating requests.
 	AccessToken string
-
-	// RefreshTokenID identifies the refresh session stored on the server side.
-	RefreshTokenID string
-
-	// RefreshTokenSecret is a secret value associated with the refresh session
-	// and is used to validate refresh requests.
-	RefreshTokenSecret string
 }
 
 // RegisterResponse describes the result of a successful user registration.
